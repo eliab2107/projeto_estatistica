@@ -21,8 +21,8 @@ server <- function(input, output) {
         df <- master_df %>% 
             filter(Index == movie_stat)
         
-        min_time <- min(df$Date)
-        max_time <- max(df$Date)
+        min_time <- min(df$Release.Date)
+        max_time <- max(df$Release.Date)
         dateRangeInput("true_date", "Período de análise",
                        end = max_time,
                        start = min_time,
@@ -42,13 +42,13 @@ server <- function(input, output) {
         
         maxmin_time <- df %>% 
             group_by(Index) %>% 
-            summarise(MD = min(Date)) %>% 
+            summarise(MD = min(Release.Date)) %>% 
             .$MD %>% 
             max()
         
         minmax_time <- df %>% 
             group_by(Index) %>% 
-            summarise(MD = max(Date)) %>% 
+            summarise(MD = max(Release.Date)) %>% 
             .$MD %>% 
             min()
         
@@ -104,9 +104,9 @@ server <- function(input, output) {
         aux1 <- min(aux)
         aux2 <- max(aux)
         
-        df$Date <- ymd(df$Date)
+        df$Release.Date <- ymd(df$Release.Date)
         a <- df %>% 
-            ggplot(aes(Date, Close, group=1)) +
+            ggplot(aes(Release.Date, Close, group=1)) +
             geom_path() +
             ylab('Preço da Ação em $') +
             coord_cartesian(ylim = c(aux1, aux2)) +

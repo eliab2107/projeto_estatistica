@@ -15,7 +15,7 @@ body <- dashboardBody(
                         selectInput('movie_stat', 'Ação', movie_stat_list, multiple=FALSE),
                         uiOutput("timedate"),
                         actionButton('go', 'Submeter')
-                        )
+                    )
                 ),
                 fluidRow(
                     box(title = "Informações sobre a ação", width = 12, solidHeader = TRUE,
