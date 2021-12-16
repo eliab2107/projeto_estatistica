@@ -7,9 +7,8 @@ library(DT)
 library(tidyverse)
 library(lubridate)
 
-# master_df <- read.csv('df_stocks.csv')
 master_df <- read.csv('movies_data.csv')
-movie_stat_list <- c('Budget', 'Domestic Gross', 'Worldwide Gross')
+movie_stat_list <- c('Orçamento', 'Bilheteria Americana', 'Bilheteria Mundial')
 
 master_df$X <- NULL
 

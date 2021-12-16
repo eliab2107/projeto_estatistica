@@ -2,23 +2,23 @@ header <- dashboardHeader(title = "Projeto de Estatística")
 
 sidebar <- dashboardSidebar(
     sidebarMenu(
-        menuItem("Métricas", tabName = "m", icon = icon("chart-line")),
-        menuItem('Comparando Ações', tabName = 'comp', icon = icon('chart-bar'))
+        menuItem("Dados", tabName = "movie_metrics", icon = icon("chart-line")),
+        menuItem('Comparando Filmes', tabName = 'stat_comp', icon = icon('chart-bar'))
     )
 )
 
 body <- dashboardBody(
     tabItems(
-        tabItem(tabName = 'm',
+        tabItem(tabName = 'movie_metrics',
                 fluidRow(
                     box(title = 'Selecione suas opções', width=12, solidHeader = TRUE, status='warning',
-                        selectInput('movie_stat', 'Ação', movie_stat_list, multiple=FALSE),
-                        uiOutput("timedate"),
-                        actionButton('go', 'Submeter')
+                        selectInput('movie_stat', 'Métrica', movie_stat_list, multiple=FALSE),
+                        uiOutput("time_date"),
+                        actionButton('go', 'Pesquisar')
                     )
                 ),
                 fluidRow(
-                    box(title = "Informações sobre a ação", width = 12, solidHeader = TRUE,
+                    box(title = "Informações sobre os atributos", width = 12, solidHeader = TRUE,
                         DTOutput('info')
                     )
                 ),
@@ -28,12 +28,12 @@ body <- dashboardBody(
                     )
                 ),
         ),
-        tabItem(tabName = 'comp',
+        tabItem(tabName = 'stat_comp',
                 fluidRow(
                     box(title = 'Selecione suas opções', width=12, solidHeader = TRUE, status='warning',
-                        selectInput('movie_comp', 'Ação', movie_stat_list, multiple=TRUE),
-                        uiOutput("timedate_comp"),
-                        actionButton('go_comp', 'Submeter')
+                        selectInput('movie_stat_comp', 'Métrica', movie_stat_list, multiple=TRUE),
+                        uiOutput("time_date_comp"),
+                        actionButton('go_comp', 'Pesquisar')
                     )
                 ),            
         )

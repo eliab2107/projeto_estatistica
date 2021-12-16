@@ -2,24 +2,48 @@
 # Define server logic required to draw a histogram
 server <- function(input, output) {
     ################### INPUT ####################
-    select_stock <- eventReactive(input$go, {
+    select_movie_stat <- eventReactive(input$go, {
         
         movie_stat <- input$movie_stat
+        switch (movie_stat,
+          "Orçamento" = movie_stat <- "Production.Budget",
+          "Bilheteria Americana" = movie_stat <- "Domestic.Gross",
+          "Bilheteria Mundial" = movie_stat <- "Worldwide.Gross"
+        )
+
         # twin <- input$true_date
         
-        df_stock <- master_df %>% 
-            filter(Index == movie_stat) 
+        df_movie_stat <- master_df %>% 
+            filter(Release.Date == movie_stat) 
         ## FALTA -> FILTRAR O DF POR DATA!!
         
-        return(df_stock)
+        return(df_movie_stat)
     })
     
-    output$timedate <- renderUI({
+    output$time_date <- renderUI({
         
         movie_stat <- input$movie_stat
+        # switch (movie_stat,
+        #   "Orçamento" = movie_stat <- "Production.Budget"
+        #   "Bilheteria Americana" = movie_stat <- "Domestic.Gross"
+        #   "Bilheteria Mundial" = movie_stat <- "Worldwide.Gross"
+        # )
+
+        print(movie_stat)
         
         df <- master_df %>% 
             filter(Index == movie_stat)
+            # select(one_of(movie_stat))
+            # mutate(movie_stat == case_when(
+            #     "Orçamento" ~ print("foi")
+            #     )
+            # )
+            # filter(movie_stat == case_when(
+            #     "Orçamento" ~ print("foi fml")
+            # ))
+            # switch (movie_stat,
+            #   "Orçamento" = print("foi")
+            # )
         
         min_time <- min(df$Release.Date)
         max_time <- max(df$Release.Date)
@@ -33,7 +57,7 @@ server <- function(input, output) {
                        language='pt-BR')
     })
     
-    output$timedate_comp <- renderUI({
+    output$time_date_comp <- renderUI({
         
         movie_stat <- input$movie_stat_comp
         
@@ -67,7 +91,7 @@ server <- function(input, output) {
     
     ################ OUTPUT #####################
     Info_DataTable <- eventReactive(input$go,{
-        df <- select_stock()
+        df <- select_movie_stat()
         
         mean <- df %>% select(Close) %>% colMeans()
         Media <- mean[[1]]
@@ -98,7 +122,7 @@ server <- function(input, output) {
     
     output$sh <- renderPlot({
         # All the inputs
-        df <- select_stock()
+        df <- select_movie_stat()
         
         aux <- df$Close %>% na.omit() %>% as.numeric()
         aux1 <- min(aux)
