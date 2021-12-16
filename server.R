@@ -11,50 +11,38 @@ server <- function(input, output) {
           "Bilheteria Mundial" = movie_stat <- "Worldwide.Gross"
         )
 
-        # twin <- input$true_date
+        twin <- input$true_date
         
         df_movie_stat <- master_df %>% 
-            filter(Release.Date == movie_stat) 
+            select(movie_stat)
         ## FALTA -> FILTRAR O DF POR DATA!!
-        
+
         return(df_movie_stat)
     })
     
     output$time_date <- renderUI({
         
         movie_stat <- input$movie_stat
-        # switch (movie_stat,
-        #   "Orçamento" = movie_stat <- "Production.Budget"
-        #   "Bilheteria Americana" = movie_stat <- "Domestic.Gross"
-        #   "Bilheteria Mundial" = movie_stat <- "Worldwide.Gross"
-        # )
-
-        print(movie_stat)
+        switch (movie_stat,
+          "Orçamento" = movie_stat <- "Production.Budget",
+          "Bilheteria Americana" = movie_stat <- "Domestic.Gross",
+          "Bilheteria Mundial" = movie_stat <- "Worldwide.Gross"
+        )
         
         df <- master_df %>% 
-            filter(Index == movie_stat)
-            # select(one_of(movie_stat))
-            # mutate(movie_stat == case_when(
-            #     "Orçamento" ~ print("foi")
-            #     )
-            # )
-            # filter(movie_stat == case_when(
-            #     "Orçamento" ~ print("foi fml")
-            # ))
-            # switch (movie_stat,
-            #   "Orçamento" = print("foi")
-            # )
+            select(movie_stat)
         
         min_time <- min(df$Release.Date)
         max_time <- max(df$Release.Date)
-        dateRangeInput("true_date", "Período de análise",
-                       end = max_time,
-                       start = min_time,
-                       min  = min_time,
-                       max  = max_time,
-                       format = "dd/mm/yy",
-                       separator = " - ",
-                       language='pt-BR')
+        dateRangeInput( "true_date", "Período de análise",
+            end = max_time,
+            start = min_time,
+            min  = min_time,
+            max  = max_time,
+            format = "dd/mm/yy",
+            separator = " - ",
+            language='pt-BR'
+        )
     })
     
     output$time_date_comp <- renderUI({
