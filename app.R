@@ -1,3 +1,4 @@
+install.packages("DT", type = "binary")
 setwd('~/Documentos/shiny-project/shiny-project')
 
 source('global.R')

@@ -1,5 +1,3 @@
-
-
 header <- dashboardHeader(title = "Projeto de Estatística")
 
 sidebar <- dashboardSidebar(
@@ -14,7 +12,7 @@ body <- dashboardBody(
         tabItem(tabName = 'm',
                 fluidRow(
                     box(title = 'Selecione suas opções', width=12, solidHeader = TRUE, status='warning',
-                        selectInput('stock', 'Ação', stock_list, multiple=FALSE),
+                        selectInput('movie_stat', 'Ação', movie_stat_list, multiple=FALSE),
                         uiOutput("timedate"),
                         actionButton('go', 'Submeter')
                         )
@@ -33,7 +31,7 @@ body <- dashboardBody(
         tabItem(tabName = 'comp',
                 fluidRow(
                     box(title = 'Selecione suas opções', width=12, solidHeader = TRUE, status='warning',
-                        selectInput('stock_comp', 'Ação', stock_list, multiple=TRUE),
+                        selectInput('movie_comp', 'Ação', movie_stat_list, multiple=TRUE),
                         uiOutput("timedate_comp"),
                         actionButton('go_comp', 'Submeter')
                     )

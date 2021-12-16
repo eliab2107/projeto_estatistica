@@ -7,10 +7,11 @@ library(DT)
 library(tidyverse)
 library(lubridate)
 
-master_df <- read.csv('df_stocks.csv')
-stock_list <- c('AAPL', 'FB', 'GOOG')
+# master_df <- read.csv('df_stocks.csv')
+master_df <- read.csv('movies_data.csv')
+movie_stat_list <- c('Budget', 'Domestic Gross', 'Worldwide Gross')
 
 master_df$X <- NULL
 
 master_df <- master_df %>% drop_na()
-master_df$Date <- strptime(master_df$Date, format='%Y-%m-%d')
+master_df$Release.Date <- strptime(master_df$Release.Date, format='%m/%d/%Y')

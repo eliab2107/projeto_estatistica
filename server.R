@@ -4,11 +4,11 @@ server <- function(input, output) {
     ################### INPUT ####################
     select_stock <- eventReactive(input$go, {
         
-        stock_name <- input$stock
-        twin <- input$true_date
+        movie_stat <- input$movie_stat
+        # twin <- input$true_date
         
         df_stock <- master_df %>% 
-            filter(Index == stock_name) 
+            filter(Index == movie_stat) 
         ## FALTA -> FILTRAR O DF POR DATA!!
         
         return(df_stock)
@@ -16,10 +16,10 @@ server <- function(input, output) {
     
     output$timedate <- renderUI({
         
-        stock_name <- input$stock
+        movie_stat <- input$movie_stat
         
         df <- master_df %>% 
-            filter(Index == stock_name)
+            filter(Index == movie_stat)
         
         min_time <- min(df$Date)
         max_time <- max(df$Date)
@@ -35,10 +35,10 @@ server <- function(input, output) {
     
     output$timedate_comp <- renderUI({
         
-        stock_name <- input$stock_comp
+        movie_stat <- input$movie_stat_comp
         
         df <- master_df %>% 
-            filter(Index %in% stock_name)
+            filter(Index %in% movie_stat)
         
         maxmin_time <- df %>% 
             group_by(Index) %>% 
@@ -72,7 +72,7 @@ server <- function(input, output) {
         mean <- df %>% select(Close) %>% colMeans()
         Media <- mean[[1]]
         
-        Stock <- input$stock
+        Stock <- input$movie_stat
         
         df_tb <-  data.frame(Stock, Media)
         
