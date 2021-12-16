@@ -14,10 +14,12 @@ server <- function(input, output) {
         twin <- input$true_date
         
         df_movie_stat <- master_df %>% 
-            select(movie_stat)
+            select(Release.Date, movie_stat)
+
         ## FALTA -> FILTRAR O DF POR DATA!!
 
         return(df_movie_stat)
+        # return(movie_stat)
     })
     
     output$time_date <- renderUI({
@@ -111,10 +113,11 @@ server <- function(input, output) {
     output$sh <- renderPlot({
         # All the inputs
         df <- select_movie_stat()
+        print(df)
         
-        aux <- df$Close %>% na.omit() %>% as.numeric()
-        aux1 <- min(aux)
-        aux2 <- max(aux)
+        # aux <- df$Close %>% na.omit() %>% as.numeric()
+        # aux1 <- min(aux)
+        # aux2 <- max(aux)
         
         df$Release.Date <- ymd(df$Release.Date)
         a <- df %>% 
@@ -124,7 +127,7 @@ server <- function(input, output) {
             coord_cartesian(ylim = c(aux1, aux2)) +
             theme_bw() +
             scale_x_date(date_labels = "%Y-%m-%d")
-        
+
         a
     })
 }
