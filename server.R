@@ -1,11 +1,8 @@
-
-# Define server logic required to draw a histogram
 server <- function(input,output) {
-    ################### INPUT ####################
     select_movie_stat <- eventReactive(input$go,{
         
         movie_stat <- input$movie_stat
-        switch (movie_stat,
+        switch(movie_stat,
           "Orçamento"=movie_stat <- "Production.Budget",
           "Bilheteria Americana"=movie_stat <- "Domestic.Gross",
           "Bilheteria Mundial"=movie_stat <- "Worldwide.Gross"
@@ -16,15 +13,13 @@ server <- function(input,output) {
         df_movie_stat <- master_df %>% 
             select(Release.Date,movie_stat)
 
-        ## FALTA -> FILTRAR O DF POR DATA!!
-
         return(df_movie_stat)
     })
     
     output$time_date <- renderUI({
         
         movie_stat <- input$movie_stat
-        switch (movie_stat,
+        switch(movie_stat,
           "Orçamento"=movie_stat <- "Production.Budget",
           "Bilheteria Americana"=movie_stat <- "Domestic.Gross",
           "Bilheteria Mundial"=movie_stat <- "Worldwide.Gross"
@@ -92,8 +87,7 @@ server <- function(input,output) {
         
         Mediana <- as.numeric(unlist(select(df,2))) %>% median()
 
-        # desv <- select(df,2) %>% //
-        Desvio <- sd(unlist(select(df,2)))
+        Desvio <- sd(as.double(unlist(select(df,2))))
         
         Atributo <- input$movie_stat
         
@@ -101,11 +95,6 @@ server <- function(input,output) {
         
         df_tb <- as.data.frame(t(df_tb))
         
-        # tb  <- as_tibble(cbind(nms=names(df_tb),t(df_tb)))
-        # tb <- tb %>% 
-        #     rename('Informações'=nms,
-        #            'Valores'=V2)
-        # 
         return(df_tb)
     })
     
@@ -120,14 +109,12 @@ server <- function(input,output) {
     })
     
     output$sh <- renderPlot({
-        # All the inputs
-
         #Puxa uma tabela contendo só data e o atributo escolhido
         df <- select_movie_stat()
         
         #a casa 1 (em r 2) do array guarda o atributo a ser tratado
-        aux <- df[2]
-        aux <- as.Date(unlist(aux))
+        aux <- unlist(df[1])
+        aux <- as.POSIXct(as.numeric(as.character(strptime(aux, format='%m/%d/%Y'))),origin="GMT")
         aux1 <- min(aux)
         aux2 <- max(aux)
         
